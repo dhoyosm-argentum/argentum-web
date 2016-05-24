@@ -1,3 +1,7 @@
+/*
+    author: Daniel Hoyos
+*/
+
 'use strict';
 
 angular.module('argentumWebApp')
@@ -58,6 +62,18 @@ angular.module('argentumWebApp')
         $location.path('/login');
     };
 
+})
+
+.controller('MainCtrl', ['mainService', function(mainService) {
+    
+}])
+
+.controller('AboutCtrl', function() {
+    this.awesomeThings = [
+        'HTML5 Boilerplate',
+        'AngularJS',
+        'Karma'
+    ];
 })
 
 ;
