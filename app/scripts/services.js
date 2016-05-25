@@ -59,7 +59,14 @@ angular.module('argentumWebApp')
 
     common.getUser = function() {
         return common.getLocalStore('jwt').user;
-    }
+    };
+
+    common.isLogged = function() {
+        if(store.get('jwt')){
+            return true;
+        }
+        return false;
+    };
 
     return common;
 }])
