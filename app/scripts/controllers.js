@@ -64,8 +64,53 @@ angular.module('argentumWebApp')
 
 })
 
-.controller('MainCtrl', ['mainService', function(mainService) {
-    
+.controller('MainCtrl', ['$scope', 'commonService', 'mainService', function($scope, commonService, mainService) {
+    var jwt = commonService.getJwt();
+    var params = {
+        id: jwt.user.id,
+        access_token: jwt.id
+    };
+
+    $scope.message = "";
+    $scope.alertClass = "";
+
+    $scope.types = ['Savings', 'Checking', 'Cash'];
+    //$scope.account = {};
+
+    mainService.getAccount().query(params)
+        .$promise.then(
+            function(response) {
+                $scope.accounts = response;
+                $scope.message = "";
+            },
+            function(response) {
+                $scope.message = "Error: " + response.status + " " + response.statusText;
+                console.log("Error: " + response.status + " " + response.statusText);
+            }
+        );
+
+    $scope.saveAccount = function() {
+        $scope.account.clientId = jwt.user.id;
+        console.log("Account: " + angular.toJson($scope.account));
+
+        mainService.getAccount()
+            .save(params, $scope.account)
+            .$promise.then(
+                function(response) {
+                    console.log("Account Saved");
+                    console.log("Response: " + angular.toJson(response));
+                    $('#newAccountModal').modal('hide');
+                    $scope.message = "Account Created!";
+                    $scope.alertClass = "alert-success";
+                    $scope.accountForm.$setPristine();
+                    $scope.account = {};
+                    $scope.accounts = mainService.getAccount().query(params);
+                },
+                function(response) {
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                }
+            );
+    };
 }])
 
 .controller('AboutCtrl', function() {
