@@ -10,11 +10,11 @@ angular.module('argentumWebApp')
     var jwt = commonService.getJwt();
 
     this.getClient = function() {
-        return $resource(commonService.getBaseURL() + "Clients/:id", null, {'get':{method:'GET' }});
+        return $resource(commonService.getBaseURL() + "/Clients/:id", null, {'get':{method:'GET' }});
     }
 
     this.getAccount = function() {
-        return $resource(commonService.getBaseURL() + "Clients/:id/accounts",
+        return $resource(commonService.getBaseURL() + "/Clients/:id/accounts",
             null,
             {
                 'get':{method:'GET' },
@@ -22,16 +22,6 @@ angular.module('argentumWebApp')
                 'save': {method:'POST'}
             });
     };
-    /*
-        this.getDishes = function() {
-            return $resource(baseURL+"dishes/:id",null,  {'update':{method:'PUT' }});
-
-        };
-
-        this.getPromotion = function() {
-            return $resource(baseURL+"promotions/:id",null,  {'get':{method:'GET' }});
-        };
-        */
 }])
 
 .factory('commonService', ['$rootScope', 'store', function($rootScope, store) {

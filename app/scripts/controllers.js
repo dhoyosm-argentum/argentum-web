@@ -6,25 +6,12 @@
 
 angular.module('argentumWebApp')
 
-.controller('HeaderCtrl', ['commonService', '$rootScope', '$scope', '$http', 'store', '$location', function(commonService, $rootScope, $scope, $http, store, $location) {
-
-    $scope.jwt = "";
-    $scope.user = "";
-    if (commonService.getJwt()) {
-        $scope.jwt = commonService.getJwt();
-        $scope.user = commonService.getJwt().user;
-    }
-
-    
-
-}])
-
-.controller('LoginCtrl', function LoginController(commonService, $rootScope, $scope, $http, store, $location) {
+.controller('LoginCtrl', function LoginController(commonService, $rootScope, $scope, $http, store, $state) {
 
     $scope.user = {};
 
     $scope.login = function() {
-        var loginUrl = $rootScope.serverURL + 'Clients/login?include=user';
+        var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
         $http({
             url: loginUrl,
             method: 'POST',
@@ -32,26 +19,24 @@ angular.module('argentumWebApp')
         }).then(function(response) {
             store.set('jwt', response.data);
             $scope.user = response.data.user;
-            $location.path('/');
+            $state.go('app');
         }, function(error) {
             console.log('error: ' + JSON.stringify(error.data));
         });
     };
 
     $scope.signup = function() {
-        $location.path('/signup');
+        //$location.path('/signup');
     };
 
     $scope.logout = function() {
-        console.log("logging out!");
-        var logoutUrl = $rootScope.serverURL + 'Clients/logout?access_token=' + commonService.getJwt().id;
+        var logoutUrl = $rootScope.serverURL + '/Clients/logout?access_token=' + commonService.getJwt().id;
+        store.remove('jwt');
         $http({
             url: logoutUrl,
             method: 'POST'
         }).then(function(response) {
-            store.remove('jwt');
-            $location.path('/login');
-            console.log("logged out!");
+            $state.go('app.login');
         }, function(error) {
             console.log('error: ' + JSON.stringify(error.data));
         });
@@ -62,20 +47,20 @@ angular.module('argentumWebApp')
     };
 
     $scope.name = function() {
-        if (commonService.isLogged()){
+        if (commonService.isLogged()) {
             return commonService.getUser().firstName;
         }
     };
 
 })
 
-.controller('SignupCtrl', function SignupController($rootScope, $scope, $http, store, $location) {
+.controller('SignupCtrl', function SignupController($rootScope, $scope, $http, store, $state) {
 
     $scope.user = {};
 
     $scope.createUser = function() {
-        var signupUrl = $rootScope.serverURL + 'Clients';
-        var loginUrl = $rootScope.serverURL + 'Clients/login?include=user';
+        var signupUrl = $rootScope.serverURL + '/Clients';
+        var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
         $http({
             url: signupUrl,
             method: 'POST',
@@ -87,7 +72,7 @@ angular.module('argentumWebApp')
                 data: $scope.user
             }).then(function(response) {
                 store.set('jwt', response.data);
-                $location.path('/');
+                $state.go('app');
             }, function(error) {
                 console.log('error: ' + JSON.stringify(error.data));
             });
@@ -98,7 +83,7 @@ angular.module('argentumWebApp')
     };
 
     $scope.login = function() {
-        $location.path('/login');
+        $state.go('app.login');
     };
 
 })
