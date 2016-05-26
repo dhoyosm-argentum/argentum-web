@@ -1,28 +1,15 @@
-/*
-    author: Daniel Hoyos
-*/
-
 'use strict';
 
+/**
+ * @ngdoc function
+ * @name argentumWebApp.service:commonService
+ * @description
+ * # commonService
+ * Service to provide common functions on the app
+ * @author Daniel Hoyos <dhoyosm@gmail.com>
+ */
+
 angular.module('argentumWebApp')
-
-.service('mainService', ['$resource', 'commonService', function($resource, commonService) {
-    var jwt = commonService.getJwt();
-
-    this.getClient = function() {
-        return $resource(commonService.getBaseURL() + "/Clients/:id", null, {'get':{method:'GET' }});
-    }
-
-    this.getAccount = function() {
-        return $resource(commonService.getBaseURL() + "/Clients/:id/accounts",
-            null,
-            {
-                'get':{method:'GET' },
-                'query': {method:'GET', isArray:true},
-                'save': {method:'POST'}
-            });
-    };
-}])
 
 .factory('commonService', ['$rootScope', 'store', function($rootScope, store) {
     var common = {};
@@ -52,7 +39,7 @@ angular.module('argentumWebApp')
     };
 
     common.isLogged = function() {
-        if(store.get('jwt')){
+        if (store.get('jwt')) {
             return true;
         }
         return false;

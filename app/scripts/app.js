@@ -41,7 +41,7 @@ angular
         views: {
             'content@': {
                 templateUrl: 'views/login.html',
-                controller: 'LoginCtrl',
+                controller: 'AuthCtrl',
             }
         }
     })
