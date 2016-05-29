@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="jumbotron">
+        <div class="alert {{alertClass}}" role="alert" ng-if="message">{{message}}</div>
+        <h2>{{account.name}}</h2>
+        <p>
+            <a class="btn btn-success" data-toggle="modal" data-target="#newSubaccountModal">New Subaccount <span class="glyphicon glyphicon-plus"></span></a>
+        </p>
+        <div class="alert alert-info" role="alert" ng-if="subaccounts.length == 0">No Subaccounts Created</div>
+        <div class="list-group">
+            <button type="button" class="list-group-item" ng-repeat="subaccount in subaccounts" ui-sref="app.subaccount({id: subaccount.id})">
+                <span class="badge">{{subaccount.balance | currency}}</span> {{subaccount.name}}
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="newSubaccountModal" tabindex="-1" role="dialog" aria-labelledby="newSubccountModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form-horizontal" name="subaccountForm" ng-submit="saveSubaccount()" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newSubaccountModalLabel">New Subaccount</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" ng-class="{ 'has-error' : subaccountForm.name.$error.required && !subaccountForm.name.$pristine }">
+                        <label for="name" class="col-sm-3 control-label">Name *</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Subaccount Name" ng-model="subaccount.name" required>
+                            <span ng-show="subaccountForm.name.$error.required && !subaccountForm.name.$pristine" class="help-block">The Subaccount Name is required</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Goal Value</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input type="number" class="form-control" id="goalValue" name="goalValue" placeholder="Goal Value" ng-model="subaccount.goalValue">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Goal Date</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" id="goalDate" name="goalDate" placeholder="Goal Date" ng-model="subaccount.goalDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes" class="col-sm-3 control-label">Notes</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" class="form-control" id="notes" name="notes" placeholder="Notes" ng-model="subaccount.notes">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="subaccountForm.$invalid">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

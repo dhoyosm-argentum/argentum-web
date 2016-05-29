@@ -45,6 +45,18 @@ angular
             }
         }
     })
+
+    // route for the account page
+    .state('app.account', {
+        url: 'account/:id',
+        views: {
+            'content@': {
+                templateUrl: 'views/account.html',
+                controller: 'AccountCtrl',
+            }
+        },
+        requiresLogin: true
+    })
     ;
 
     $urlRouterProvider.otherwise('/');

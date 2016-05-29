@@ -7,7 +7,7 @@
         </p>
         <div class="alert alert-info" role="alert" ng-if="accounts.length == 0">No Accounts Created</div>
         <div class="list-group">
-            <button type="button" class="list-group-item" ng-repeat="account in accounts">
+            <button type="button" class="list-group-item" ng-repeat="account in accounts" ui-sref="app.account({id: account.id})">
                 <span class="badge">{{account.balance | currency}}</span> {{account.name}}
             </button>
         </div>

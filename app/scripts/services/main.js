@@ -20,7 +20,7 @@ angular.module('argentumWebApp')
     }
 
     this.getAccount = function() {
-        return $resource(commonService.getBaseURL() + "/Clients/:id/accounts",
+        return $resource(commonService.getBaseURL() + "/Clients/:id/accounts/:fk",
             null,
             {
                 'get':{method:'GET' },
