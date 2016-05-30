@@ -14,6 +14,7 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="libs/bootstrap-datepicker/css/bootstrap-datepicker.css">
     <!-- endbuild -->
     <base href="/">
 </head>
@@ -33,13 +34,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#/">Argentum</a>
+                    <a class="navbar-brand" href="/">Argentum</a>
                 </div>
                 <div class="collapse navbar-collapse" id="js-navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#/">Home</a></li>
-                        <li><a ng-href="#/about">About</a></li>
-                        <li><a ng-href="#/">Contact</a></li>
+                        <li class="active"><a href="/">Home</a></li>
+                        <li><a ng-href="/about">About</a></li>
+                        <li><a ng-href="/">Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -49,11 +50,10 @@
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#/" ng-click="logout()" class="navbar-link">Logout</a></li>
+                                <li><a href="/" ng-click="logout()" class="navbar-link">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
-                   
                 </div>
             </div>
         </div>
@@ -94,6 +94,7 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/account.js"></script>
     <script src="scripts/controllers/auth.js"></script>
@@ -101,6 +102,7 @@
     <script src="scripts/services/account.js"></script>
     <script src="scripts/services/common.js"></script>
     <script src="scripts/services/main.js"></script>
+    <script src="scripts/services/transaction.js"></script>
     <!-- endbuild -->
 </body>
 

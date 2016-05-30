@@ -24,7 +24,7 @@ angular
     $stateProvider
 
     // route for the home page
-    .state('app', {
+        .state('app', {
         url: '/',
         views: {
             'content': {
@@ -56,8 +56,7 @@ angular
             }
         },
         requiresLogin: true
-    })
-    ;
+    });
 
     $urlRouterProvider.otherwise('/');
 
@@ -68,7 +67,7 @@ angular
     //store.remove('jwt');
     //$rootScope.serverURL = 'https://argentum-server.mybluemix.net/api/';
     $rootScope.serverURL = 'http://localhost:3000/api';
-    
+
     $rootScope.$on('$stateChangeStart', function(e, to) {
         if (to.requiresLogin) {
             //if (!store.get('jwt') || jwtHelper.isTokenExpired(store.get('jwt'))) {

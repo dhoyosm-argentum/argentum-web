@@ -2,20 +2,20 @@
 
 /**
 * @ngdoc function
-* @name argentumWebApp.service:accountService
+* @name argentumWebApp.service:transactionService
 * @description
-* # accountService
-* Service that gets Account info from the Api
+* # transactionService
+* Service that gets Transaction info from the Api
 * @requires commonService
 * @author Daniel Hoyos <dhoyosm@gmail.com>
 */
 
 angular.module('argentumWebApp')
 
-.service('accountService', ['$resource', 'commonService', function($resource, commonService) {
+.service('transactionService', ['$resource', 'commonService', function($resource, commonService) {
     
-    this.getSubaccount = function() {
-        return $resource(commonService.getBaseURL() + "/Accounts/:id/subaccounts",
+    this.getTransactions = function() {
+        return $resource(commonService.getBaseURL() + "/Accounts/:id/transactions",
             null, {
                 'get': { method: 'GET' },
                 'query': { method: 'GET', isArray: true },
