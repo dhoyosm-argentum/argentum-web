@@ -102,16 +102,54 @@
                             <span ng-show="transactionForm.type.$error.required && !transactionForm.type.$pristine" class="help-block">Transaction Type is required</span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{ 'has-error' : transactionForm.amount.$error.required && !transactionForm.amount.$pristine }">
                         <label for="amount" class="col-sm-3 control-label">Amount *</label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <div class="input-group-addon">$</div>
-                                <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount" ng-model="transaction.amount">
+                                <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount" ng-model="transaction.amount" min="0" required>
                             </div>
+                            <span ng-show="transactionForm.amount.$error.required && !transactionForm.amount.$pristine" class="help-block">The amount is required</span>
                         </div>
                     </div>
-                    <<!--> TODO Delete </!--><tt>transaction = {{transaction | json}}</tt>
+                    <div class="form-group">
+                        <label for="amount" class="col-sm-3 control-label">Distribution</label>
+                        <div class="col-sm-9">
+                            <table class="table table-striped">
+                                <thead ng-class="{ 'has-error' : !transactionForm.distTotal.$valid }">
+                                    <tr>
+                                        <th class="col-sm-8">Total</th>
+                                        <th class="col-sm-4">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="distTotal" name="distTotal" ng-model="distTotal" ng-model-options="{ getterSetter: true }" min="100" max="100" readonly required>
+                                                <div class="input-group-addon">%</div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="dist in distribution">
+                                    <td class="col-sm-8">{{dist.name}}</td>
+                                    <td class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" ng-model="dist.percentage" min="0" max="100">
+                                            <div class="input-group-addon">%</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div ng-show="!transactionForm.distTotal.$valid" class="alert alert-danger" role="alert">Ditribution Total must be 100%</div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- TODO Delete -->
+                    <tt>transaction = {{transaction | json}}</tt>
+                    <br/>
+                    <tt>distribution = {{distribution | json}}</tt>
                     <br/>
                 </div>
                 <div class="modal-footer">

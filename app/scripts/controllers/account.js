@@ -12,7 +12,7 @@
 angular.module('argentumWebApp')
 
 .controller('AccountCtrl', ['$scope', '$stateParams', 'commonService', 'mainService', 'accountService', 'transactionService',
-    function($scope, $stateParams, commonService, mainService, accountService,transactionService) {
+    function($scope, $stateParams, commonService, mainService, accountService, transactionService) {
 
         $('.input-group.date').datepicker({
             autoclose: true,
@@ -28,8 +28,7 @@ angular.module('argentumWebApp')
 
         $scope.message = "";
         $scope.alertClass = "";
-
-        //$scope.types = ['Savings', 'Checking', 'Cash'];
+        $scope.distribution = [];
 
         mainService.getAccount().get({
                 id: jwt.user.id,
@@ -50,6 +49,7 @@ angular.module('argentumWebApp')
             .$promise.then(
                 function(response) {
                     $scope.subaccounts = response;
+                    getDistribution();
                 },
                 function(response) {
                     $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -70,6 +70,7 @@ angular.module('argentumWebApp')
                         $scope.subaccountForm.$setPristine();
                         $scope.subaccount = {};
                         $scope.subaccounts = accountService.getSubaccount().query(params);
+                        getDistribution();
                     },
                     function(response) {
                         $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -78,8 +79,30 @@ angular.module('argentumWebApp')
                 );
         };
 
+        var getDistribution = function() {
+            var dist = [];
+            for (var i = 0; i < $scope.subaccounts.length; i++) {
+                dist.push({
+                    id: $scope.subaccounts[i].id,
+                    name: $scope.subaccounts[i].name,
+                    percentage: 0
+                });
+            }
+            $scope.distribution = dist;
+        };
+
+        $scope.distTotal = function() {
+            var total = 0;
+            var item = $scope.distribution;
+            for (var i = 0; i < item.length; i++) {
+                total += item[i].percentage;
+            };
+            return total;
+        };
+
         $scope.saveTransaction = function() {
             $scope.transaction.accountId = $stateParams.id;
+            $scope.transaction.distribution = $scope.distribution;
             transactionService.getTransactions()
                 .save(params, $scope.transaction)
                 .$promise.then(
