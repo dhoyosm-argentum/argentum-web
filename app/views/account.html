@@ -128,7 +128,7 @@
                                     </tr>
                                 </thead>
                                 <tr ng-repeat="dist in distribution">
-                                    <td class="col-sm-8">{{dist.name}}</td>
+                                    <td class="col-sm-8">{{dist.subaccount.name}}</td>
                                     <td class="col-sm-4">
                                         <div class="input-group">
                                             <input type="number" class="form-control" ng-model="dist.percentage" min="0" max="100">
@@ -146,11 +146,6 @@
                             </table>
                         </div>
                     </div>
-                    <!-- TODO Delete -->
-                    <tt>transaction = {{transaction | json}}</tt>
-                    <br/>
-                    <tt>distribution = {{distribution | json}}</tt>
-                    <br/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

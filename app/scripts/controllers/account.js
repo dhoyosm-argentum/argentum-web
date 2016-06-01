@@ -83,11 +83,10 @@ angular.module('argentumWebApp')
             var dist = [];
             for (var i = 0; i < $scope.subaccounts.length; i++) {
                 dist.push({
-                    id: $scope.subaccounts[i].id,
-                    name: $scope.subaccounts[i].name,
+                    subaccount: $scope.subaccounts[i],
                     percentage: 0
                 });
-            }
+            };
             $scope.distribution = dist;
         };
 
@@ -101,10 +100,43 @@ angular.module('argentumWebApp')
         };
 
         $scope.saveTransaction = function() {
-            $scope.transaction.accountId = $stateParams.id;
-            $scope.transaction.distribution = $scope.distribution;
-            transactionService.getTransactions()
-                .save(params, $scope.transaction)
+            var transactionComposer = {};
+            var subtransactions = [];
+            var subaccounts = [];
+            transactionComposer.transaction = $scope.transaction;
+            transactionComposer.account = $scope.account;
+            if ($scope.transaction.type === 'Income') {
+                transactionComposer.account.balance += $scope.transaction.amount;
+            } else {
+                transactionComposer.account.balance -= $scope.transaction.amount;
+            };
+
+            for (var i = 0; i < $scope.distribution.length; i++) {
+                var dist = $scope.distribution[i];
+                if (dist.percentage > 0) {
+                    var subamount = ($scope.transaction.amount * dist.percentage / 100);
+                    subtransactions.push({
+                        date: $scope.transaction.date,
+                        description: $scope.transaction.description,
+                        type: $scope.transaction.type,
+                        percentage: dist.percentage,
+                        amount: subamount,
+                        subaccountId: dist.subaccount.id
+                    });
+
+                    if ($scope.transaction.type === 'Income') {
+                        dist.subaccount.balance += subamount;
+                    } else {
+                        dist.subaccount.balance -= subamount;
+                    };
+                    subaccounts.push(dist.subaccount);
+                };
+            };
+            transactionComposer.subtransactions = subtransactions;
+            transactionComposer.subaccounts = subaccounts;
+            
+            transactionService.composeTransaction()
+                .save(params, transactionComposer)
                 .$promise.then(
                     function(response) {
                         $('#transactionModal').modal('hide');
@@ -112,8 +144,31 @@ angular.module('argentumWebApp')
                         $scope.alertClass = "alert-success";
                         $scope.transactionForm.$setPristine();
                         $scope.transaction = {};
-                        // TODO Update Account and subaccounts info
-                        //$scope.subaccounts = accountService.getSubaccount().query(params);
+                        mainService.getAccount().get({
+                                id: jwt.user.id,
+                                fk: $stateParams.id,
+                                access_token: jwt.id
+                            })
+                            .$promise.then(
+                                function(response) {
+                                    $scope.account = response;
+                                    accountService.getSubaccount().query(params)
+                                        .$promise.then(
+                                            function(response) {
+                                                $scope.subaccounts = response;
+                                                getDistribution();
+                                            },
+                                            function(response) {
+                                                $scope.message = "Error: " + response.status + " " + response.statusText;
+                                                $scope.alertClass = "alert-danger";
+                                            }
+                                        );
+                                },
+                                function(response) {
+                                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                                    $scope.alertClass = "alert-danger";
+                                }
+                            );
                     },
                     function(response) {
                         $scope.message = "Error: " + response.status + " " + response.statusText;
