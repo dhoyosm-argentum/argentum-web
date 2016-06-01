@@ -15,6 +15,7 @@ angular.module('argentumWebApp')
 .controller('AuthCtrl', function LoginController(commonService, $rootScope, $scope, $http, store, $state) {
 
     $scope.user = {};
+    $scope.message = "";
 
     $scope.login = function() {
         var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
@@ -27,12 +28,17 @@ angular.module('argentumWebApp')
             $scope.user = response.data.user;
             $state.go('app');
         }, function(error) {
-            console.log('error: ' + JSON.stringify(error.data));
+            console.log('error.status: ' + error.status);
+            $scope.message = "An error has occurred. Please try again.";
+            if(error.status == 401) {
+                $scope.message = "Wrong email/password combination. Please try again.";
+            }
+            console.log('error: ' + angular.toJson(error.data));
         });
     };
 
     $scope.signup = function() {
-        //$location.path('/signup');
+        $state.go('app.signup');
     };
 
     $scope.logout = function() {
@@ -60,9 +66,10 @@ angular.module('argentumWebApp')
 
 })
 
-.controller('SignupCtrl', function SignupController($rootScope, $scope, $http, store, $state) {
+.controller('SignupCtrl', function SignupController(commonService, $rootScope, $scope, $http, store, $state) {
 
     $scope.user = {};
+    $scope.message = "";
 
     $scope.createUser = function() {
         var signupUrl = $rootScope.serverURL + '/Clients';
@@ -83,15 +90,37 @@ angular.module('argentumWebApp')
                 console.log('error: ' + JSON.stringify(error.data));
             });
         }, function(error) {
-            console.log('error: ' + JSON.stringify(error.data));
-            alert('error: ' + JSON.stringify(error.data));
+            console.log('error.status: ' + error.status);
+            $scope.message = "An error has occurred. Please try again.";
+            if(error.status == 422) {
+                $scope.message = "Email '" + $scope.user.email + "' already exists";
+            }
+            console.log('error: ' + angular.toJson(error.data));
         });
     };
 
     $scope.login = function() {
         $state.go('app.login');
     };
+})
 
+.directive('confirmPwd', function($interpolate, $parse) {
+    return {
+        require: 'ngModel',
+        link: function(scope, elem, attr, ngModelCtrl) {
+            var pwdToMatch = $parse(attr.confirmPwd);
+            var pwdFn = $interpolate(attr.confirmPwd)(scope);
+            scope.$watch(pwdFn, function(newVal) {
+                ngModelCtrl.$setValidity('password', ngModelCtrl.$viewValue == newVal);
+            });
+
+            ngModelCtrl.$validators.password = function(modelValue, viewValue) {
+                var value = modelValue || viewValue;
+                return value == pwdToMatch(scope);
+            };
+
+        }
+    }
 })
 
 ;

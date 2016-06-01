@@ -46,6 +46,17 @@ angular
         }
     })
 
+    // route for the signup page
+    .state('app.signup', {
+        url: 'signup',
+        views: {
+            'content@': {
+                templateUrl: 'views/signup.html',
+                controller: 'SignupCtrl',
+            }
+        }
+    })
+
     // route for the account page
     .state('app.account', {
         url: 'account/:id',
