@@ -76,8 +76,8 @@ angular
 
 .run(function($rootScope, store, $state) {
     //store.remove('jwt');
-    //$rootScope.serverURL = 'https://argentum-server.mybluemix.net/api/';
-    $rootScope.serverURL = 'http://localhost:3000/api';
+    $rootScope.serverURL = 'https://argentum-server.mybluemix.net/api/';
+    //$rootScope.serverURL = 'http://localhost:3000/api';
 
     $rootScope.$on('$stateChangeStart', function(e, to) {
         if (to.requiresLogin) {
