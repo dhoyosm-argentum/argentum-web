@@ -2,11 +2,16 @@
     <div class="jumbotron">
         <div class="alert {{alertClass}}" role="alert" ng-if="message">{{message}}</div>
         <h2>{{account.name}}</h2>
-        <p>
-            <a class="btn btn-success" data-toggle="modal" data-target="#newSubaccountModal">New Subaccount <span class="glyphicon glyphicon-plus"></span></a>
-            <a class="btn btn-success" data-toggle="modal" data-target="#transactionModal">Add Transaction <span class="glyphicon glyphicon-plus"></span></a>
+        <p class="col-xs-12">
+            
+                <a class="btn btn-success btn-add" data-toggle="modal" data-target="#newSubaccountModal">New Subaccount <span class="glyphicon glyphicon-plus"></span></a>
+               
+                <a class="btn btn-success btn-add" data-toggle="modal" data-target="#transactionModal">Add Transaction <span class="glyphicon glyphicon-plus"></span></a>
+            
         </p>
+        <br>
         <div class="alert alert-info" role="alert" ng-if="subaccounts.length == 0">No Subaccounts Created</div>
+        <br>
         <div class="list-group">
             <button type="button" class="list-group-item" ng-repeat="subaccount in subaccounts" ui-sref="app.subaccount({id: subaccount.id})">
                 <span class="badge">{{subaccount.balance | currency}}</span> {{subaccount.name}}
@@ -22,6 +27,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="newSubaccountModalLabel">New Subaccount</h4>
+                    <div class="alert {{alertClass}}" role="alert" ng-if="message">{{message}}</div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group" ng-class="{ 'has-error' : subaccountForm.name.$error.required && !subaccountForm.name.$pristine }">
@@ -72,6 +78,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="transactionModalLabel">New Transaction</h4>
+                    <div class="alert {{alertClass}}" role="alert" ng-if="message">{{message}}</div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group" ng-class="{ 'has-error' : transactionForm.date.$error.required && !transactionForm.date.$pristine }">

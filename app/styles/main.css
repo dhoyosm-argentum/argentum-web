@@ -73,6 +73,11 @@ body {
     padding: 14px 24px;
 }
 
+.jumbotron .btn-add {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
 
 /* Supporting marketing content */
 
@@ -114,5 +119,34 @@ body {
     /* Remove the bottom border on the jumbotron for visual effect */
     .jumbotron {
         border-bottom: 0;
+    }
+}
+
+
+/* Responsive: mobile */
+
+@media screen and (max-width: 400px) {
+    .container {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+    .navbar-header {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .title img {
+        height: 60px;
+        width: 60px;
+    }
+    .title h1 {
+        font-size: 30px;
+    }
+    h1,
+    .h1,
+    h2,
+    .h2,
+    h3,
+    .h3 {
+        margin-top: 15px;
     }
 }
