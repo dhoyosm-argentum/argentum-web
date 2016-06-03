@@ -69,8 +69,11 @@ angular.module('argentumWebApp')
                         $scope.alertClass = "alert-success";
                         $scope.subaccountForm.$setPristine();
                         $scope.subaccount = {};
-                        $scope.subaccounts = accountService.getSubaccount().query(params);
-                        getDistribution();
+                        $scope.subaccounts = accountService.getSubaccount().query(params)
+                            .$promise.then(function(response) {
+                                $scope.subaccounts = response;
+                                getDistribution();
+                            });
                     },
                     function(response) {
                         $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -134,7 +137,7 @@ angular.module('argentumWebApp')
             };
             transactionComposer.subtransactions = subtransactions;
             transactionComposer.subaccounts = subaccounts;
-            
+
             transactionService.composeTransaction()
                 .save(params, transactionComposer)
                 .$promise.then(

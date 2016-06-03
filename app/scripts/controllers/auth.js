@@ -43,15 +43,12 @@ angular.module('argentumWebApp')
 
     $scope.logout = function() {
         var logoutUrl = $rootScope.serverURL + '/Clients/logout?access_token=' + commonService.getJwt().id;
-        store.remove('jwt');
         $http({
             url: logoutUrl,
             method: 'POST'
-        }).then(function(response) {
-            $state.go('app.login');
-        }, function(error) {
-            console.log('error: ' + JSON.stringify(error.data));
         });
+        store.remove('jwt');
+        $state.go('app.login');
     };
 
     $scope.isLogged = function() {
