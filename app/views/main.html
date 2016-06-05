@@ -1,12 +1,12 @@
 <div class="container">
-    <div class="jumbotron">
-        <div class="alert {{alertClass}}" role="alert" ng-if="message">{{message}}</div>
+    <div class="jumbotron col-xs-12">
+        <div class="alert {{alertClass}} col-xs-12" role="alert" ng-if="message">{{message}}</div>
         <h2>Balance</h2>
-        <p>
+        <p class="col-xs-12">
             <a class="btn btn-success btn-add" data-toggle="modal" data-target="#newAccountModal">New account <span class="glyphicon glyphicon-plus"></span></a>
         </p>
-        <div class="alert alert-info" role="alert" ng-if="accounts.length == 0">No Accounts Created</div>
-        <div class="list-group">
+        <div class="alert alert-info col-xs-12" role="alert" ng-if="accounts.length == 0">No Accounts Created</div>
+        <div class="list-group col-xs-12">
             <button type="button" class="list-group-item" ng-repeat="account in accounts" ui-sref="app.account({id: account.id})">
                 <span class="badge">{{account.balance | currency}}</span> {{account.name}}
             </button>

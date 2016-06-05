@@ -18,6 +18,7 @@ angular.module('argentumWebApp')
     $scope.message = "";
 
     $scope.login = function() {
+        $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
         var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
         $http({
             url: loginUrl,
@@ -28,6 +29,7 @@ angular.module('argentumWebApp')
             $scope.user = response.data.user;
             $state.go('app');
         }, function(error) {
+            $('#loader').modal('hide');
             console.log('error.status: ' + error.status);
             $scope.message = "An error has occurred. Please try again.";
             if(error.status == 401) {
@@ -71,6 +73,7 @@ angular.module('argentumWebApp')
     $scope.createUser = function() {
         var signupUrl = $rootScope.serverURL + '/Clients';
         var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
+        $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
         $http({
             url: signupUrl,
             method: 'POST',
@@ -85,6 +88,7 @@ angular.module('argentumWebApp')
                 $state.go('app');
             }, function(error) {
                 console.log('error: ' + JSON.stringify(error.data));
+                $('#loader').modal('hide');
             });
         }, function(error) {
             console.log('error.status: ' + error.status);
@@ -93,6 +97,7 @@ angular.module('argentumWebApp')
                 $scope.message = "Email '" + $scope.user.email + "' already exists";
             }
             console.log('error: ' + angular.toJson(error.data));
+            $('#loader').modal('hide');
         });
     };
 

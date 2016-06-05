@@ -23,15 +23,17 @@ angular.module('argentumWebApp')
     $scope.alertClass = "";
 
     $scope.types = ['Savings', 'Checking', 'Cash'];
-
+console.log("H");
     mainService.getAccount().query(params)
         .$promise.then(
             function(response) {
                 $scope.accounts = response;
+                $('#loader').modal('hide');
             },
             function(response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
                 $scope.alertClass = "alert-danger";
+                $('#loader').modal('hide');
             }
         );
 
