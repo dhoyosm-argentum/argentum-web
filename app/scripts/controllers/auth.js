@@ -16,6 +16,7 @@ angular.module('argentumWebApp')
 
     $scope.user = {};
     $scope.message = "";
+    $('#loader').modal('hide');
 
     $scope.login = function() {
         $rootScope.loaderMessage = "Loggin in...";
@@ -33,7 +34,7 @@ angular.module('argentumWebApp')
             $('#loader').modal('hide');
             console.log('error.status: ' + error.status);
             $scope.message = "An error has occurred. Please try again.";
-            if(error.status == 401) {
+            if (error.status == 401) {
                 $scope.message = "Wrong email/password combination. Please try again.";
             }
             console.log('error: ' + angular.toJson(error.data));
@@ -46,6 +47,8 @@ angular.module('argentumWebApp')
 
     $scope.logout = function() {
         var logoutUrl = $rootScope.serverURL + '/Clients/logout?access_token=' + commonService.getJwt().id;
+        $rootScope.loaderMessage = "Loggin out...";
+        $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
         $http({
             url: logoutUrl,
             method: 'POST'
@@ -74,6 +77,7 @@ angular.module('argentumWebApp')
     $scope.createUser = function() {
         var signupUrl = $rootScope.serverURL + '/Clients';
         var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
+        $rootScope.loaderMessage = "Signing up...";
         $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
         $http({
             url: signupUrl,
@@ -94,7 +98,7 @@ angular.module('argentumWebApp')
         }, function(error) {
             console.log('error.status: ' + error.status);
             $scope.message = "An error has occurred. Please try again.";
-            if(error.status == 422) {
+            if (error.status == 422) {
                 $scope.message = "Email '" + $scope.user.email + "' already exists";
             }
             console.log('error: ' + angular.toJson(error.data));
