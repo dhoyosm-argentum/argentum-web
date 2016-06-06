@@ -11,8 +11,12 @@
  */
 angular.module('argentumWebApp')
 
-.controller('AccountCtrl', ['$scope', '$stateParams', 'commonService', 'mainService', 'accountService', 'transactionService',
-    function($scope, $stateParams, commonService, mainService, accountService, transactionService) {
+.controller('AccountCtrl', ['$rootScope', '$scope', '$stateParams', 'commonService', 'mainService', 'accountService', 'transactionService',
+    function($rootScope, $scope, $stateParams, commonService, mainService, accountService, transactionService) {
+
+        $('#loader').modal('hide');
+        $rootScope.loaderMessage = "Loading subaccounts...";
+        $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
 
         $('.input-group.date').datepicker({
             autoclose: true,
@@ -50,14 +54,18 @@ angular.module('argentumWebApp')
                 function(response) {
                     $scope.subaccounts = response;
                     getDistribution();
+                    $('#loader').modal('hide');
                 },
                 function(response) {
                     $scope.message = "Error: " + response.status + " " + response.statusText;
                     $scope.alertClass = "alert-danger";
+                    $('#loader').modal('hide');
                 }
             );
 
         $scope.saveSubaccount = function() {
+            $rootScope.loaderMessage = "Saving subaccount...";
+            $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
             $scope.subaccount.accountId = $stateParams.id;
 
             accountService.getSubaccount()
@@ -73,11 +81,13 @@ angular.module('argentumWebApp')
                             .$promise.then(function(response) {
                                 $scope.subaccounts = response;
                                 getDistribution();
+                                $('#loader').modal('hide');
                             });
                     },
                     function(response) {
                         $scope.message = "Error: " + response.status + " " + response.statusText;
                         $scope.alertClass = "alert-danger";
+                        $('#loader').modal('hide');
                     }
                 );
         };
@@ -103,6 +113,9 @@ angular.module('argentumWebApp')
         };
 
         $scope.saveTransaction = function() {
+            $rootScope.loaderMessage = "Saving transaction...";
+            $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
+
             var transactionComposer = {};
             var subtransactions = [];
             var subaccounts = [];
@@ -160,22 +173,26 @@ angular.module('argentumWebApp')
                                             function(response) {
                                                 $scope.subaccounts = response;
                                                 getDistribution();
+                                                $('#loader').modal('hide');
                                             },
                                             function(response) {
                                                 $scope.message = "Error: " + response.status + " " + response.statusText;
                                                 $scope.alertClass = "alert-danger";
+                                                $('#loader').modal('hide');
                                             }
                                         );
                                 },
                                 function(response) {
                                     $scope.message = "Error: " + response.status + " " + response.statusText;
                                     $scope.alertClass = "alert-danger";
+                                    $('#loader').modal('hide');
                                 }
                             );
                     },
                     function(response) {
                         $scope.message = "Error: " + response.status + " " + response.statusText;
                         $scope.alertClass = "alert-danger";
+                        $('#loader').modal('hide');
                     }
                 );
         };

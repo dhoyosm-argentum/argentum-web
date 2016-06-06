@@ -98,6 +98,34 @@ body {
     width: 45%;
 }
 
+.account-menu {
+    color: white;
+    padding-left: 0;
+}
+
+.account-menu .btn {
+    background-color: #0e3453;
+}
+
+.account-menu .btn:hover {
+    color: white;
+}
+
+.account-menu .btn:hover,
+.account-menu .btn:focus,
+.account-menu .btn.focus {
+    color: white;
+}
+
+.account-menu .dropdown-menu {
+    right: 15px;
+    left: auto;
+}
+
+.account-menu .dropdown-menu a:hover {
+    cursor: pointer;
+}
+
 
 /* Responsive: Portrait tablets and up */
 

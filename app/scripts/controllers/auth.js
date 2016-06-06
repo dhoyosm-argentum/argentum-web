@@ -18,6 +18,7 @@ angular.module('argentumWebApp')
     $scope.message = "";
 
     $scope.login = function() {
+        $rootScope.loaderMessage = "Loggin in...";
         $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
         var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
         $http({

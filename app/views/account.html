@@ -1,12 +1,19 @@
 <div class="container">
     <div class="jumbotron col-xs-12">
         <div class="alert {{alertClass}} col-xs-12" role="alert" ng-if="message">{{message}}</div>
-        <h2>{{account.name}}</h2>
-        <p class="col-xs-12">
-            <a class="btn btn-success btn-add" data-toggle="modal" data-target="#newSubaccountModal">New Subaccount <span class="glyphicon glyphicon-plus"></span></a>
-            <a class="btn btn-success btn-add" data-toggle="modal" data-target="#transactionModal">Add Transaction <span class="glyphicon glyphicon-plus"></span></a>
-        </p>
+        <div class="btn-group account-menu col-xs-12">
+            <button type="button" class="btn col-xs-11">{{account.name}}</button>
+            <button type="button" class="btn dropdown-toggle col-xs-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a data-toggle="modal" data-target="#newSubaccountModal">New Subaccount </a></li>
+                <li><a data-toggle="modal" data-target="#transactionModal">Add Transaction </a></li>
+            </ul>
+        </div>
         <div class="alert alert-info col-xs-12" role="alert" ng-if="subaccounts.length == 0">No Subaccounts Created</div>
+        <div class="col-xs-12"><p></p></div>
         <div class="list-group col-xs-12">
             <button type="button" class="list-group-item" ng-repeat="subaccount in subaccounts" ui-sref="app.subaccount({id: subaccount.id})">
                 <span class="badge">{{subaccount.balance | currency}}</span> {{subaccount.name}}

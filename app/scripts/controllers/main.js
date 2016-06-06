@@ -12,7 +12,7 @@
 
 angular.module('argentumWebApp')
 
-.controller('MainCtrl', ['$scope', 'commonService', 'mainService', function($scope, commonService, mainService) {
+.controller('MainCtrl', ['$rootScope', '$scope', 'commonService', 'mainService', function($rootScope, $scope, commonService, mainService) {
     var jwt = commonService.getJwt();
     var params = {
         id: jwt.user.id,
@@ -23,7 +23,11 @@ angular.module('argentumWebApp')
     $scope.alertClass = "";
 
     $scope.types = ['Savings', 'Checking', 'Cash'];
-console.log("H");
+
+    $('#loader').modal('hide');
+    $rootScope.loaderMessage = "Loading accounts...";
+    $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
+
     mainService.getAccount().query(params)
         .$promise.then(
             function(response) {
@@ -39,6 +43,8 @@ console.log("H");
 
     $scope.saveAccount = function() {
         $scope.account.clientId = jwt.user.id;
+        $rootScope.loaderMessage = "Saving account...";
+        $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
 
         mainService.getAccount()
             .save(params, $scope.account)
@@ -50,10 +56,12 @@ console.log("H");
                     $scope.accountForm.$setPristine();
                     $scope.account = {};
                     $scope.accounts = mainService.getAccount().query(params);
+                    $('#loader').modal('hide');
                 },
                 function(response) {
                     $scope.message = "Error: " + response.status + " " + response.statusText;
                     $scope.alertClass = "alert-danger";
+                    $('#loader').modal('hide');
                 }
             );
     };
