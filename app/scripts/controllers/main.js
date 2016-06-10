@@ -49,7 +49,7 @@ angular.module('argentumWebApp')
         mainService.getAccount()
             .save(params, $scope.account)
             .$promise.then(
-                function(response) {
+                function() {
                     $('#newAccountModal').modal('hide');
                     $scope.message = "Account Created!";
                     $scope.alertClass = "alert-success";

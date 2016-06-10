@@ -67,7 +67,20 @@ angular
             }
         },
         requiresLogin: true
-    });
+    })
+
+    // route for the subaccount page
+    .state('app.subaccount', {
+        url: 'subaccount/:id',
+        views: {
+            'content@': {
+                templateUrl: 'views/subaccount.html',
+                controller: 'SubaccountCtrl',
+            }
+        },
+        requiresLogin: true
+    })
+    ;
 
     $urlRouterProvider.otherwise('/');
 
@@ -78,11 +91,6 @@ angular
     //store.remove('jwt');
     $rootScope.serverURL = 'https://argentum-server.mybluemix.net/api';
     //$rootScope.serverURL = 'http://localhost:3000/api';
-
-
-    //$('#loader').on('show.bs.modal', function(e) {
-        //$('#loader').modal({ backdrop: 'static', keyboard: false });
-    //});
 
     $rootScope.$on('$stateChangeStart', function(e, to) {
         if (to.requiresLogin) {

@@ -68,9 +68,9 @@ body {
     border-bottom: 1px solid #e5e5e5;
 }
 
-.jumbotron .btn {
+.btn-title {
     font-size: 21px;
-    padding: 14px 24px;
+    padding: 10px 24px;
 }
 
 .jumbotron .btn-add {

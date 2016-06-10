@@ -2,26 +2,56 @@
     <div class="jumbotron col-xs-12">
         <div class="alert {{alertClass}} col-xs-12" role="alert" ng-if="message">{{message}}</div>
         <div class="btn-group account-menu col-xs-12">
-            <button type="button" class="btn btn-title col-xs-11">{{account.name}}</button>
+            <button type="button" class="btn btn-title col-xs-11">{{subaccount.name}}</button>
             <button type="button" class="btn btn-title dropdown-toggle col-xs-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu">
+                <!--
                 <li><a data-toggle="modal" data-target="#newSubaccountModal">New Subaccount </a></li>
                 <li><a data-toggle="modal" data-target="#transactionModal">Add Transaction </a></li>
+            -->
             </ul>
         </div>
-        <div class="alert alert-info col-xs-12" role="alert" ng-if="subaccounts.length == 0">No Subaccounts Created</div>
-        <div class="col-xs-12"><p></p></div>
-        <div class="list-group col-xs-12">
-            <button type="button" class="list-group-item" ng-repeat="subaccount in subaccounts" ui-sref="app.subaccount({id: subaccount.id})">
-                <span class="badge">{{subaccount.balance | currency}}</span> {{subaccount.name}}
-            </button>
+        <div class="col-xs-12">
+            <p></p>
+        </div>
+        <div class="row">
+            <form class="form-horizontal col-xs-6" name="filterForm" ng-submit="filterTransactions()" novalidate>
+                <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="form-control" name="start" placeholder="mm/dd/yyyy" ng-model="filter.startDate" />
+                    <span class="input-group-addon">to</span>
+                    <input type="text" class="form-control" name="end" placeholder="mm/dd/yyyy" ng-model="filter.endDate" />
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+                </span>
+                </div>
+            </form>
+        </div>
+        <div class="alert alert-info col-xs-12" role="alert" ng-if="transactions.length == 0">No transactions to show</div>
+        <div class="list-group col-xs-12" ng-if="transactions.length != 0">
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="transaction in transactions | orderBy:'-date'">
+                        <td style="width: 10%">{{transaction.date | date : 'shortDate'}}</td>
+                        <td>{{transaction.description}}</td>
+                        <td style="width: 20%; text-align: right" ng-class="{'text-danger': transaction.type === 'Expense'}">{{transaction.amount | currency}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <!-- Subaccount Modal -->
+<!--
 <div class="modal fade" id="newSubaccountModal" tabindex="-1" role="dialog" aria-labelledby="newSubccountModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -72,7 +102,9 @@
         </div>
     </div>
 </div>
+-->
 <!-- Transaction Modal -->
+<!--
 <div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -164,3 +196,4 @@
         </div>
     </div>
 </div>
+-->

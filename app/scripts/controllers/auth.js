@@ -34,7 +34,7 @@ angular.module('argentumWebApp')
             $('#loader').modal('hide');
             console.log('error.status: ' + error.status);
             $scope.message = "An error has occurred. Please try again.";
-            if (error.status == 401) {
+            if (error.status === 401) {
                 $scope.message = "Wrong email/password combination. Please try again.";
             }
             console.log('error: ' + angular.toJson(error.data));
@@ -77,6 +77,7 @@ angular.module('argentumWebApp')
     $scope.createUser = function() {
         var signupUrl = $rootScope.serverURL + '/Clients';
         var loginUrl = $rootScope.serverURL + '/Clients/login?include=user';
+
         $rootScope.loaderMessage = "Signing up...";
         $('#loader').modal({ show: true, backdrop: 'static', keyboard: false });
         $http({
@@ -98,7 +99,7 @@ angular.module('argentumWebApp')
         }, function(error) {
             console.log('error.status: ' + error.status);
             $scope.message = "An error has occurred. Please try again.";
-            if (error.status == 422) {
+            if (error.status === 422) {
                 $scope.message = "Email '" + $scope.user.email + "' already exists";
             }
             console.log('error: ' + angular.toJson(error.data));
@@ -118,16 +119,16 @@ angular.module('argentumWebApp')
             var pwdToMatch = $parse(attr.confirmPwd);
             var pwdFn = $interpolate(attr.confirmPwd)(scope);
             scope.$watch(pwdFn, function(newVal) {
-                ngModelCtrl.$setValidity('password', ngModelCtrl.$viewValue == newVal);
+                ngModelCtrl.$setValidity('password', ngModelCtrl.$viewValue === newVal);
             });
 
             ngModelCtrl.$validators.password = function(modelValue, viewValue) {
                 var value = modelValue || viewValue;
-                return value == pwdToMatch(scope);
+                return value === pwdToMatch(scope);
             };
 
         }
-    }
+    };
 })
 
 ;

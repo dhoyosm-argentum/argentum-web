@@ -71,7 +71,7 @@ angular.module('argentumWebApp')
             accountService.getSubaccount()
                 .save(params, $scope.subaccount)
                 .$promise.then(
-                    function(response) {
+                    function() {
                         $('#newSubaccountModal').modal('hide');
                         $scope.message = "Subaccount Created!";
                         $scope.alertClass = "alert-success";
@@ -99,7 +99,7 @@ angular.module('argentumWebApp')
                     subaccount: $scope.subaccounts[i],
                     percentage: 0
                 });
-            };
+            }
             $scope.distribution = dist;
         };
 
@@ -108,7 +108,7 @@ angular.module('argentumWebApp')
             var item = $scope.distribution;
             for (var i = 0; i < item.length; i++) {
                 total += item[i].percentage;
-            };
+            }
             return total;
         };
 
@@ -125,7 +125,7 @@ angular.module('argentumWebApp')
                 transactionComposer.account.balance += $scope.transaction.amount;
             } else {
                 transactionComposer.account.balance -= $scope.transaction.amount;
-            };
+            }
 
             for (var i = 0; i < $scope.distribution.length; i++) {
                 var dist = $scope.distribution[i];
@@ -146,15 +146,15 @@ angular.module('argentumWebApp')
                         dist.subaccount.balance -= subamount;
                     };
                     subaccounts.push(dist.subaccount);
-                };
-            };
+                }
+            }
             transactionComposer.subtransactions = subtransactions;
             transactionComposer.subaccounts = subaccounts;
 
             transactionService.composeTransaction()
                 .save(params, transactionComposer)
                 .$promise.then(
-                    function(response) {
+                    function() {
                         $('#transactionModal').modal('hide');
                         $scope.message = "Transaction Added!";
                         $scope.alertClass = "alert-success";

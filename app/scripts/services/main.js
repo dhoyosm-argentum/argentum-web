@@ -13,11 +13,10 @@
 angular.module('argentumWebApp')
 
 .service('mainService', ['$resource', 'commonService', function($resource, commonService) {
-    var jwt = commonService.getJwt();
-
+    
     this.getClient = function() {
         return $resource(commonService.getBaseURL() + "/Clients/:id", null, {'get':{method:'GET' }});
-    }
+    };
 
     this.getAccount = function() {
         return $resource(commonService.getBaseURL() + "/Clients/:id/accounts/:fk",

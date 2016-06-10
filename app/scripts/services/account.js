@@ -15,7 +15,7 @@ angular.module('argentumWebApp')
 .service('accountService', ['$resource', 'commonService', function($resource, commonService) {
     
     this.getSubaccount = function() {
-        return $resource(commonService.getBaseURL() + "/Accounts/:id/subaccounts",
+        return $resource(commonService.getBaseURL() + "/Accounts/:id/subaccounts/:fk",
             null, {
                 'get': { method: 'GET' },
                 'query': { method: 'GET', isArray: true },

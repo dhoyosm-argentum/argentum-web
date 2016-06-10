@@ -34,7 +34,7 @@
             </div>
             <div class="form-group" ng-class="{ 'has-error' : ( signupForm.password2.$error.required || signupForm.password2.$error.password ) && !signupForm.password2.$pristine }">
                 <label for="password2">Confirm Password *</label>
-                <input type="password" class="form-control" id="password2" name="password2" ng-model="user.password2" placeholder="Confirm Password" required confirm-pwd="user.password">
+                <input type="password" class="form-control" id="password2" name="password2" ng-model="password2" placeholder="Confirm Password" required confirm-pwd="user.password">
                 <span ng-show="signupForm.password2.$error.required && !signupForm.password2.$pristine" class="help-block">Confirm Password is required</span>
                 <span ng-show="signupForm.password2.$error.password && !signupForm.password2.$pristine" class="help-block">Passwords don't match</span>
             </div>
